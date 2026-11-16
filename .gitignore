@@ -5,6 +5,6 @@ __pycache__/
 .ipynb_checkpoints/
 .claude/
 # source outline and stale exports kept local
-OpenAI_API_BFSI_Webinar.pdf
-session_guide.pdf
-session_guide (updated).pdf
+/OpenAI_API_BFSI_Webinar.pdf
+/session_guide.pdf
+/session_guide (updated).pdf
