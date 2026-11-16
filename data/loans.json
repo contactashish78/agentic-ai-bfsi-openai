@@ -1,0 +1,90 @@
+{
+  "_note": "Synthetic demo data only. No real customers, IDs or account numbers.",
+  "applications": {
+    "LA-1001": {
+      "customer_name": "Priya Sharma",
+      "customer_id": "CUST-501",
+      "loan_type": "Home Loan",
+      "amount_inr": 4500000,
+      "submitted_on": "2026-10-28",
+      "last_updated": "2026-11-12",
+      "status": "UNDER_REVIEW",
+      "stage": "Credit assessment",
+      "missing_documents": [],
+      "expected_decision_by": "2026-11-20",
+      "officer_note": "Valuation report received. Pending credit committee."
+    },
+    "LA-1002": {
+      "customer_name": "Rahul Verma",
+      "customer_id": "CUST-502",
+      "loan_type": "Personal Loan",
+      "amount_inr": 500000,
+      "submitted_on": "2026-11-05",
+      "last_updated": "2026-11-10",
+      "status": "DOCUMENTS_PENDING",
+      "stage": "Document verification",
+      "missing_documents": ["Last 3 months salary slips", "Bank statement (last 6 months)"],
+      "expected_decision_by": null,
+      "officer_note": "Cannot proceed until income documents are uploaded."
+    },
+    "LA-1003": {
+      "customer_name": "Anita Desai",
+      "customer_id": "CUST-503",
+      "loan_type": "Car Loan",
+      "amount_inr": 900000,
+      "submitted_on": "2026-10-15",
+      "last_updated": "2026-11-01",
+      "status": "APPROVED",
+      "stage": "Awaiting disbursal",
+      "missing_documents": [],
+      "expected_decision_by": null,
+      "officer_note": "Sanction letter issued. Disbursal after dealer invoice."
+    },
+    "LA-1004": {
+      "customer_name": "Vikram Singh",
+      "customer_id": "CUST-504",
+      "loan_type": "Business Loan",
+      "amount_inr": 2500000,
+      "submitted_on": "2026-09-20",
+      "last_updated": "2026-10-30",
+      "status": "REJECTED",
+      "stage": "Closed",
+      "missing_documents": [],
+      "expected_decision_by": null,
+      "officer_note": "Declined by credit committee. Customer may request a review via branch."
+    },
+    "LA-1005": {
+      "customer_name": "Meera Iyer",
+      "customer_id": "CUST-505",
+      "loan_type": "Education Loan",
+      "amount_inr": 1200000,
+      "submitted_on": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "status": "SUBMITTED",
+      "stage": "Initial screening",
+      "missing_documents": ["Admission letter", "Co-applicant KYC"],
+      "expected_decision_by": null,
+      "officer_note": "New application. KYC check queued."
+    },
+    "LA-1006": {
+      "customer_name": "Arjun Mehta",
+      "customer_id": "CUST-506",
+      "loan_type": "Home Loan",
+      "amount_inr": 6000000,
+      "submitted_on": "2026-08-01",
+      "last_updated": "2026-09-15",
+      "status": "DISBURSED",
+      "stage": "Loan active",
+      "missing_documents": [],
+      "expected_decision_by": null,
+      "officer_note": "Fully disbursed. EMI started October 2026."
+    }
+  },
+  "document_checklists": {
+    "Home Loan": ["PAN card", "Aadhaar / address proof", "Last 3 months salary slips", "Bank statement (last 6 months)", "Property sale agreement", "Property valuation report"],
+    "Personal Loan": ["PAN card", "Aadhaar / address proof", "Last 3 months salary slips", "Bank statement (last 6 months)"],
+    "Car Loan": ["PAN card", "Aadhaar / address proof", "Income proof", "Dealer proforma invoice"],
+    "Business Loan": ["PAN card (individual and business)", "GST registration", "Last 2 years ITR", "Audited financials", "Bank statement (last 12 months)"],
+    "Education Loan": ["PAN card", "Aadhaar / address proof", "Admission letter", "Fee structure", "Co-applicant KYC", "Co-applicant income proof"]
+  }
+}
