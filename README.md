@@ -6,11 +6,14 @@ All customer data in `data/loans.json` is synthetic.
 
 ## Setup (once)
 
+New to Python or Jupyter? Follow **`setup_guide.html`** (also `docs/setup_guide.pdf`): step-by-step for Windows/macOS, a Python ↔ .NET/Java cheat sheet, a notebook primer and troubleshooting.
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 copy .env.example .env          # then put your OPENAI_API_KEY in .env
+python check_setup.py           # verifies Python, packages, .env and one tiny API call
 ```
 
 ## Run

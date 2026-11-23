@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Environment Setup Guide</title>
+<style>
+  :root{
+    --ink:#14213d; --ink-2:#3d4a63; --muted:#6b7280; --line:#dfe4ee; --soft:#f4f6fb;
+    --brand:#1d4ed8; --brand-soft:#e8efff; --teal:#0f766e; --teal-soft:#e6f5f3;
+    --amber:#b45309; --amber-soft:#fdf3e4; --red:#b91c1c; --red-soft:#fdecec;
+    --violet:#6d28d9; --violet-soft:#f1ebfd; --green:#15803d; --green-soft:#e8f6ec;
+    --code:#0f172a;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{margin:0;background:#fff;color:var(--ink);font:15px/1.6 "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  .page{max-width:920px;margin:0 auto;padding:0 16px 48px}
+  h1,h2,h3,h4{line-height:1.25;margin:0}
+  h2{font-size:22px;margin:40px 0 6px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+  h2 .num{display:inline-block;min-width:34px;font-size:.8em;color:var(--brand);font-variant-numeric:tabular-nums;margin-right:6px}
+  h3{font-size:16.5px;margin:22px 0 6px}
+  p{margin:8px 0}
+  .lead{color:var(--ink-2);font-size:15.5px}
+  .muted{color:var(--muted)}
+  code{font-family:Consolas,"Cascadia Mono",Menlo,monospace;font-size:.88em;background:var(--soft);
+       border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  pre{font-family:Consolas,"Cascadia Mono",Menlo,monospace;font-size:12.5px;line-height:1.5;background:var(--code);
+      color:#e2e8f0;border-radius:8px;padding:12px 14px;overflow-x:auto;margin:10px 0;white-space:pre}
+  pre .c{color:#94a3b8} pre .k{color:#93c5fd} pre .s{color:#86efac} pre .f{color:#fcd34d} pre .ok{color:#86efac} pre .w{color:#fcd34d}
+  ul,ol{margin:6px 0 6px 22px;padding:0} li{margin:3px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+  th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+  th{background:var(--soft);font-weight:600;color:var(--ink-2);font-size:13px;text-transform:uppercase;letter-spacing:.3px}
+  td code{white-space:nowrap}
+  kbd{font-family:inherit;font-size:12.5px;font-weight:600;background:#fff;border:1px solid #c8cfdc;border-bottom-width:2px;border-radius:4px;padding:0 5px}
+
+  .cover{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--brand)}
+  .cover h1{font-size:36px;margin:10px 0 8px;letter-spacing:-.4px}
+  .cover .sub{font-size:18px;color:var(--ink-2);margin:0 0 22px}
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .meta div{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+  .meta b{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+  .meta span{font-weight:600}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff;break-inside:avoid}
+  .card h4{font-size:14px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-2);margin-bottom:6px}
+
+  .step{border:1px solid var(--line);border-left:5px solid var(--brand);border-radius:10px;padding:14px 18px;margin:16px 0}
+  .step-head{display:flex;gap:12px;align-items:center;margin-bottom:4px}
+  .step-head .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .step-head h3{margin:0;font-size:18px}
+  .step-head .pill{margin-left:auto}
+  .pill{font-size:12px;font-weight:600;border-radius:99px;padding:3px 10px;background:var(--soft);color:var(--ink-2);white-space:nowrap}
+
+  .os{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .os > div{min-width:0}
+  .os h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:8px 0 -4px}
+
+  .tip,.note,.warn,.dev{border-radius:8px;padding:10px 14px;margin:10px 0;font-size:14px;break-inside:avoid}
+  .tip{background:var(--green-soft)} .tip b{color:var(--green)}
+  .note{background:var(--amber-soft)} .note b{color:var(--amber)}
+  .warn{background:var(--red-soft)} .warn b{color:var(--red)}
+  .dev{background:var(--violet-soft)} .dev b{color:var(--violet)}
+
+  .map td:first-child{font-weight:600}
+  .map td:nth-child(2),.map td:nth-child(3){color:var(--ink-2)}
+  .side{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .side > div{min-width:0}
+  .side pre{font-size:12px}
+  .side h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:8px 0 -4px}
+
+  .nb{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:13px;margin:12px 0;break-inside:avoid}
+  .nb .cell{display:grid;grid-template-columns:64px 1fr;border-bottom:1px solid var(--line)}
+  .nb .cell:last-child{border-bottom:none}
+  .nb .lbl{padding:8px;color:var(--brand);font-family:Consolas,monospace;font-size:12px;text-align:right}
+  .nb .body{padding:8px 12px}
+  .nb .md{background:#fff}
+  .nb .code .body{background:var(--soft);font-family:Consolas,monospace}
+  .nb .out .body{font-family:Consolas,monospace;color:var(--ink-2)}
+  .nb .tag{float:right;font-family:"Segoe UI",sans-serif;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+  .check{list-style:none;margin-left:0}
+  .check li{padding-left:28px;position:relative;margin:7px 0}
+  .check li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border:2px solid var(--ink-2);border-radius:4px}
+
+  .toc{columns:2;font-size:14px;margin:14px 0 0;padding-left:20px}
+  .toc li{break-inside:avoid}
+  a{color:var(--brand)}
+
+  @media (max-width:720px){
+    .meta{grid-template-columns:1fr 1fr}
+    .grid2,.os,.side{grid-template-columns:1fr}
+    .toc{columns:1}
+    td code{white-space:normal}
+  }
+  @page{size:A4;margin:14mm 12mm}
+  @media print{
+    body{font-size:13px}
+    .page{max-width:none;padding:0}
+    .cover{padding-top:10px}
+    h2{break-after:avoid}
+    .card,pre,tr,.nb{break-inside:avoid}
+    .lead{break-after:avoid}
+    pre{white-space:pre-wrap;overflow:visible}
+    .side pre{font-size:11.5px}
+    a{color:var(--ink);text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="cover">
+  <div class="eyebrow">Agentic AI in BFSI · Pre-session setup</div>
+  <h1>Environment Setup Guide</h1>
+  <p class="sub">Get Python, the project and Jupyter notebooks running before the session. Written for .NET and Java developers who are new to Python.</p>
+  <div class="meta">
+    <div><b>Time needed</b><span>20–30 minutes</span></div>
+    <div><b>When</b><span>Before the session</span></div>
+    <div><b>Python</b><span>3.12 (3.11+ works)</span></div>
+    <div><b>Cost</b><span>Under $0.10 of API usage</span></div>
+  </div>
+  <ol class="toc">
+    <li><a href="#map">Python for .NET / Java developers</a></li>
+    <li><a href="#s1">Install Python</a></li>
+    <li><a href="#s2">Get the code</a></li>
+    <li><a href="#s3">Create a virtual environment</a></li>
+    <li><a href="#s4">Install the packages</a></li>
+    <li><a href="#s5">Add your OpenAI API key</a></li>
+    <li><a href="#s6">Check everything works</a></li>
+    <li><a href="#nb">Jupyter notebooks in 5 minutes</a></li>
+    <li><a href="#py">Python syntax you will see</a></li>
+    <li><a href="#trouble">Troubleshooting</a></li>
+    <li><a href="#ready">Ready checklist</a></li>
+  </ol>
+</header>
+
+<!-- ============================================================ -->
+<h2 id="map"><span class="num">00</span>Python for .NET / Java developers</h2>
+<p class="lead">You already know every idea in this setup. Python just uses different names for them.</p>
+
+<table class="map">
+  <tr><th>Python</th><th>.NET equivalent</th><th>Java equivalent</th><th>What it does here</th></tr>
+  <tr><td><code>python</code> interpreter</td><td>.NET runtime + <code>dotnet</code> CLI</td><td>JDK / <code>java</code></td><td>Runs the code. There is no separate compile step.</td></tr>
+  <tr><td><code>pip</code></td><td>NuGet</td><td>Maven / Gradle</td><td>Downloads packages from <b>PyPI</b> (the Python equivalent of nuget.org / Maven Central).</td></tr>
+  <tr><td><code>requirements.txt</code></td><td><code>PackageReference</code> list in <code>.csproj</code></td><td><code>&lt;dependencies&gt;</code> in <code>pom.xml</code></td><td>The list of packages and versions this project needs.</td></tr>
+  <tr><td>Virtual environment (<code>.venv</code>)</td><td>Per-project <code>bin/</code> + packages folder</td><td>A project-local <code>~/.m2</code></td><td>An isolated copy of Python with its own packages, so projects don't clash. <b>Always work inside it.</b></td></tr>
+  <tr><td><code>.env</code> file</td><td><code>appsettings.json</code> / user secrets</td><td><code>application.properties</code></td><td>Holds the API key and model name. Never committed to Git.</td></tr>
+  <tr><td>Module / package (<code>harness/</code>)</td><td>Namespace / assembly</td><td>Package</td><td>A <code>.py</code> file is a module; a folder of them is a package. <code>import</code> ≈ <code>using</code> / <code>import</code>.</td></tr>
+  <tr><td>Jupyter notebook (<code>.ipynb</code>)</td><td>Polyglot Notebooks / LINQPad</td><td>JShell + markdown</td><td>Code and explanation in one document, run piece by piece. Modules 1–4 use these.</td></tr>
+  <tr><td>Kernel</td><td>The process behind C# Interactive</td><td>The JShell process</td><td>The Python process that runs a notebook's code and keeps its variables in memory.</td></tr>
+  <tr><td><code>dict</code> / <code>list</code></td><td><code>Dictionary&lt;string,object&gt;</code> / <code>List&lt;T&gt;</code></td><td><code>Map</code> / <code>ArrayList</code></td><td>JSON maps straight onto these, which is why LLM code uses them everywhere.</td></tr>
+</table>
+
+<div class="dev"><b>Mental model.</b> <code>.venv</code> + <code>requirements.txt</code> + <code>pip install</code> is the Python way of doing <code>dotnet restore</code> or <code>mvn install</code>, except the packages land inside the project folder instead of a global cache.</div>
+
+<!-- ============================================================ -->
+<h2 id="s1"><span class="num">01</span>Install Python</h2>
+
+<div class="step">
+  <div class="step-head"><div class="n">1</div><h3>Install Python 3.12</h3><span class="pill">5 min</span></div>
+  <p>Any version from <b>3.11</b> up works; <b>3.12</b> is what the session was tested with. If <code>python --version</code> already prints 3.11 or newer, skip to step 2.</p>
+  <div class="os">
+    <div>
+      <h4>Windows</h4>
+      <ol>
+        <li>Download the installer from <a href="https://www.python.org/downloads/">python.org/downloads</a>.</li>
+        <li>On the first screen tick <b>“Add python.exe to PATH”</b>, then click <b>Install Now</b>.</li>
+      </ol>
+      <p class="muted">Or from a terminal:</p>
+<pre>winget install Python.Python.3.12</pre>
+    </div>
+    <div>
+      <h4>macOS</h4>
+      <p>Use the installer from <a href="https://www.python.org/downloads/">python.org</a>, or Homebrew:</p>
+<pre>brew install python@3.12</pre>
+      <h4>Linux</h4>
+<pre>sudo apt install python3.12 python3.12-venv</pre>
+    </div>
+  </div>
+  <p><b>Close and reopen your terminal</b>, then check:</p>
+  <div class="os">
+    <div><h4>Windows (PowerShell)</h4>
+<pre>python --version
+<span class="c"># Python 3.12.x</span></pre></div>
+    <div><h4>macOS / Linux</h4>
+<pre>python3 --version
+<span class="c"># Python 3.12.x</span></pre></div>
+  </div>
+  <div class="note"><b>Windows: Microsoft Store opens instead?</b> That is a Windows shortcut, not real Python. Turn off <i>Settings → Apps → Advanced app settings → App execution aliases → python.exe / python3.exe</i>, or use the Python launcher: <code>py -3.12 --version</code>.</div>
+  <div class="dev"><b>macOS / Linux note.</b> Use <code>python3</code> wherever this guide says <code>python</code> <i>until the virtual environment is active</i>. After that, plain <code>python</code> works everywhere.</div>
+</div>
+
+<div class="card">
+  <h4>Also install</h4>
+  <ul>
+    <li><b>Git</b> (optional): <a href="https://git-scm.com/downloads">git-scm.com</a>, or download the code as a ZIP instead.</li>
+    <li><b>An editor</b> (optional): <a href="https://code.visualstudio.com/">VS Code</a> with the <b>Python</b> and <b>Jupyter</b> extensions from Microsoft. Not required: JupyterLab runs in your browser.</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s2"><span class="num">02</span>Get the code</h2>
+
+<div class="step">
+  <div class="step-head"><div class="n">2</div><h3>Clone or download the repository</h3><span class="pill">2 min</span></div>
+<pre>git clone https://github.com/contactashish78/agentic-ai-bfsi-openai.git
+cd agentic-ai-bfsi-openai</pre>
+  <p><b>No Git?</b> Open <a href="https://github.com/contactashish78/agentic-ai-bfsi-openai">the repository page</a>, choose <b>Code → Download ZIP</b>, unzip it, and open a terminal in that folder.</p>
+  <div class="tip"><b>Use a short path without spaces</b>, for example <code>C:\code\agentic-ai-bfsi-openai</code>. Long OneDrive paths can cause odd errors on Windows.</div>
+  <p class="muted">Every command from here on is run <b>from this project folder</b>.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s3"><span class="num">03</span>Create a virtual environment</h2>
+
+<div class="step">
+  <div class="step-head"><div class="n">3</div><h3>Create and activate <code>.venv</code></h3><span class="pill">2 min</span></div>
+  <p>This creates a <code>.venv</code> folder inside the project holding a private copy of Python. You create it once; you <b>activate</b> it in every new terminal.</p>
+  <div class="os">
+    <div>
+      <h4>Windows · PowerShell</h4>
+<pre>python -m venv .venv
+.venv\Scripts\Activate.ps1</pre>
+      <h4>Windows · Command Prompt</h4>
+<pre>python -m venv .venv
+.venv\Scripts\activate.bat</pre>
+    </div>
+    <div>
+      <h4>macOS / Linux</h4>
+<pre>python3 -m venv .venv
+source .venv/bin/activate</pre>
+    </div>
+  </div>
+  <p>Once it is active, your prompt starts with <code>(.venv)</code>:</p>
+<pre><span class="ok">(.venv)</span> PS C:\code\agentic-ai-bfsi-openai&gt;</pre>
+  <div class="warn"><b>PowerShell says “running scripts is disabled on this system”?</b> Allow locally created scripts for your user only, then activate again:
+<pre>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</pre>
+  If company policy blocks this, use <b>Command Prompt</b> and <code>activate.bat</code> instead.</div>
+  <div class="dev"><b>Forgot to activate?</b> Packages would install into the global Python, and the notebooks would not find them. If the prompt has no <code>(.venv)</code>, activate first.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s4"><span class="num">04</span>Install the packages</h2>
+
+<div class="step">
+  <div class="step-head"><div class="n">4</div><h3>Install from <code>requirements.txt</code></h3><span class="pill">3–8 min</span></div>
+<pre>python -m pip install --upgrade pip
+pip install -r requirements.txt</pre>
+  <p>This installs (with their dependencies):</p>
+  <table>
+    <tr><th>Package</th><th>Why we need it</th></tr>
+    <tr><td><code>aisuite[openai,mcp]</code></td><td>One simple client for many LLM providers; we use it with OpenAI. Also runs the tool-calling loop for us.</td></tr>
+    <tr><td><code>openai</code></td><td>The official OpenAI SDK (Module 1 compares it with aisuite).</td></tr>
+    <tr><td><code>python-dotenv</code></td><td>Reads the <code>.env</code> file into environment variables.</td></tr>
+    <tr><td><code>pydantic</code></td><td>Typed data classes for structured output (think DTOs with validation).</td></tr>
+    <tr><td><code>jupyter</code>, <code>ipykernel</code></td><td>JupyterLab and the notebook kernel.</td></tr>
+    <tr><td><code>streamlit</code></td><td>Turns a Python script into a web UI, used for the capstone harness.</td></tr>
+  </table>
+  <div class="note"><b>Behind a corporate proxy or SSL inspection?</b> If you see <code>SSLError</code>, <code>CERTIFICATE_VERIFY_FAILED</code> or connection timeouts, see <a href="#corp">Corporate network</a> in Troubleshooting.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s5"><span class="num">05</span>Add your OpenAI API key</h2>
+
+<div class="step">
+  <div class="step-head"><div class="n">5</div><h3>Create <code>.env</code> from the template</h3><span class="pill">3 min</span></div>
+  <ol>
+    <li>Create a key at <a href="https://platform.openai.com/api-keys">platform.openai.com/api-keys</a>. The account needs a small amount of credit; the whole session uses well under $0.10 with <code>gpt-4o-mini</code>.</li>
+    <li>Copy the template:
+      <div class="os">
+        <div><h4>Windows</h4><pre>copy .env.example .env</pre></div>
+        <div><h4>macOS / Linux</h4><pre>cp .env.example .env</pre></div>
+      </div>
+    </li>
+    <li>Open <code>.env</code> in any text editor and replace the placeholder:
+<pre><span class="k">OPENAI_API_KEY</span>=<span class="s">sk-proj-...paste-your-key-here...</span>
+<span class="c"># aisuite model string: provider:model</span>
+<span class="k">MODEL</span>=<span class="s">openai:gpt-4o-mini</span>
+<span class="k">TEMPERATURE</span>=<span class="s">0.2</span>
+<span class="k">MAX_STEPS</span>=<span class="s">6</span></pre>
+    </li>
+  </ol>
+  <div class="warn"><b>Treat the key like a password.</b> No quotes, no spaces around <code>=</code>. Never paste it into a notebook cell, a screenshot or a chat. <code>.env</code> is listed in <code>.gitignore</code>, so Git will not commit it.</div>
+  <div class="dev"><b>Why <code>openai:gpt-4o-mini</code>?</b> aisuite model names are <code>provider:model</code>. Switching providers later is a one-line change here, much like changing a connection string.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s6"><span class="num">06</span>Check everything works</h2>
+
+<div class="step">
+  <div class="step-head"><div class="n">6</div><h3>Run the setup check</h3><span class="pill">1 min</span></div>
+  <p>With <code>(.venv)</code> active, run:</p>
+<pre>python check_setup.py</pre>
+  <p>It checks the Python version, the virtual environment, every package, your <code>.env</code>, and makes one tiny API call (a few tokens). A good result looks like this:</p>
+<pre><span class="ok">[ OK ]</span> Python 3.12.4
+<span class="ok">[ OK ]</span> Virtual environment: C:\code\agentic-ai-bfsi-openai\.venv
+<span class="ok">[ OK ]</span> aisuite        0.2.0
+<span class="ok">[ OK ]</span> openai         1.109.1
+<span class="c">  ... more packages ...</span>
+<span class="ok">[ OK ]</span> OPENAI_API_KEY found (sk-...a1B2)  model: openai:gpt-4o-mini
+<span class="ok">[ OK ]</span> Live call to openai:gpt-4o-mini answered: 'ready'
+
+All set for the session!</pre>
+  <p>Every <code>[FAIL]</code> line prints a <code>fix:</code> hint underneath. No API key yet? Run <code>python check_setup.py --offline</code> to check the rest.</p>
+  <div class="tip"><b>First run is slow?</b> Endpoint security software often scans every new Python file the first time it is imported. A 30–60 second first start is normal on company laptops; later runs are fast.</div>
+</div>
+
+<h3>Optional: try the capstone early</h3>
+<table>
+  <tr><th>Command</th><th>What you will see</th></tr>
+  <tr><td><code>python cli.py --demo</code></td><td>The multi-agent harness running five scripted customer conversations in the terminal.</td></tr>
+  <tr><td><code>streamlit run app.py</code></td><td>The same harness as a web chat with a live audit trail. Opens at <code>http://localhost:8501</code>. Stop it with <kbd>Ctrl</kbd>+<kbd>C</kbd>.</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="nb"><span class="num">07</span>Jupyter notebooks in 5 minutes</h2>
+<p class="lead">Modules 1–4 are notebooks. If you have never used one, read this section; it covers everything you need.</p>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Option A · JupyterLab in the browser</h4>
+    <p>Recommended: the outputs render best here.</p>
+<pre>jupyter lab notebooks</pre>
+    <p>Your browser opens on JupyterLab. Double-click <code>01_sdk_basics.ipynb</code> in the left panel. Leave the terminal open: it <i>is</i> the server. <kbd>Ctrl</kbd>+<kbd>C</kbd> twice stops it.</p>
+  </div>
+  <div class="card">
+    <h4>Option B · VS Code</h4>
+    <ol>
+      <li>Install the <b>Python</b> and <b>Jupyter</b> extensions.</li>
+      <li><b>File → Open Folder…</b> and pick the project folder (not the <code>notebooks</code> folder).</li>
+      <li>Open a notebook, click <b>Select Kernel</b> (top right) → <b>Python Environments</b> → <b>.venv</b>.</li>
+    </ol>
+    <p class="muted">The repo's <code>.vscode/settings.json</code> already points VS Code at <code>.venv</code>.</p>
+  </div>
+</div>
+
+<h3>What a notebook looks like</h3>
+<div class="nb">
+  <div class="cell md"><div class="lbl"></div><div class="body"><span class="tag">Markdown cell</span><b>Step 1 · Initialise the client</b><br>Text that explains what the next code cell does.</div></div>
+  <div class="cell code"><div class="lbl">[1]:</div><div class="body"><span class="tag">Code cell</span>import aisuite as ai<br>client = ai.Client()</div></div>
+  <div class="cell code"><div class="lbl">[2]:</div><div class="body"><span class="tag">Code cell</span>reply = client.chat.completions.create(model=MODEL, messages=msgs)<br>reply.choices[0].message.content</div></div>
+  <div class="cell out"><div class="lbl"></div><div class="body"><span class="tag">Output</span>'Your application LA-1001 is under review…'</div></div>
+</div>
+
+<table>
+  <tr><th>You see / do</th><th>Meaning</th></tr>
+  <tr><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td><td>Run the current cell and move to the next. This is 90% of what you will press.</td></tr>
+  <tr><td><code>[*]</code> next to a cell</td><td>The cell is still running (an LLM call can take a few seconds). Wait for a number.</td></tr>
+  <tr><td><code>[3]</code> next to a cell</td><td>Finished; it was the 3rd cell run in this session. The number is <b>run order</b>, not position.</td></tr>
+  <tr><td>Variables carry over</td><td>Like a debugger session or REPL: a variable defined in cell 2 exists in cell 5, because one kernel process keeps everything in memory.</td></tr>
+  <tr><td><code>NameError: name 'client' is not defined</code></td><td>You skipped an earlier cell. Run the cells above it, top to bottom.</td></tr>
+  <tr><td>Things look confused</td><td><b>Kernel → Restart Kernel and Run All Cells…</b> (VS Code: <b>Restart</b>, then <b>Run All</b>). The notebook equivalent of “clean and rebuild”.</td></tr>
+  <tr><td>Edit, then re-run</td><td>Encouraged! Change a prompt and press <kbd>Shift</kbd>+<kbd>Enter</kbd> again; nothing is compiled.</td></tr>
+</table>
+
+<div class="tip"><b>The notebooks already contain saved outputs</b>, so you can read them without running anything. Re-running costs a few cents at most.</div>
+<div class="dev"><b>What the first cell does.</b> Each notebook starts with <code>sys.path.append("..")</code> (≈ adding a project reference, so <code>utils.py</code> and <code>harness/</code> can be imported) and <code>load_dotenv("../.env")</code> (reads your key). Always run it first.</div>
+
+<!-- ============================================================ -->
+<h2 id="py"><span class="num">08</span>Python syntax you will see</h2>
+<p class="lead">You do not need to write Python in the session. This is enough to read every cell.</p>
+
+<div class="side">
+  <div>
+    <h4>C#</h4>
+<pre><span class="k">Dictionary</span>&lt;<span class="k">string</span>, <span class="k">object</span>&gt;
+    <span class="f">CheckLoanStatus</span>(<span class="k">string</span> id)
+{
+    <span class="k">if</span> (!loans.ContainsKey(id))
+        <span class="k">return new</span>() { [<span class="s">"found"</span>] = <span class="k">false</span> };
+    <span class="k">var</span> app = loans[id];
+    <span class="k">return new</span>() {
+        [<span class="s">"found"</span>] = <span class="k">true</span>,
+        [<span class="s">"status"</span>] = app.Status,
+        [<span class="s">"note"</span>] = <span class="s">$"Updated </span>{app.Updated}<span class="s">"</span>
+    };
+}</pre>
+  </div>
+  <div>
+    <h4>Python</h4>
+<pre><span class="k">def</span> <span class="f">check_loan_status</span>(application_id: <span class="k">str</span>) -&gt; <span class="k">dict</span>:
+    <span class="s">"""Look up a loan application."""</span>  <span class="c"># docstring</span>
+    <span class="k">if</span> application_id <span class="k">not in</span> loans:
+        <span class="k">return</span> {<span class="s">"found"</span>: <span class="k">False</span>}
+    app = loans[application_id]
+    <span class="k">return</span> {
+        <span class="s">"found"</span>: <span class="k">True</span>,
+        <span class="s">"status"</span>: app[<span class="s">"status"</span>],
+        <span class="s">"note"</span>: <span class="s">f"Updated </span>{app[<span class="s">'last_updated'</span>]}<span class="s">"</span>,
+    }</pre>
+  </div>
+</div>
+
+<table>
+  <tr><th>Python</th><th>Read it as</th></tr>
+  <tr><td>Indentation instead of <code>{ }</code></td><td>The indented lines <i>are</i> the block. No semicolons.</td></tr>
+  <tr><td><code>def name(x: str) -&gt; dict:</code></td><td>A method. Type hints are optional and not enforced at runtime, but aisuite reads them to build the tool schema.</td></tr>
+  <tr><td><code>"""docstring"""</code></td><td>Like XML doc comments / Javadoc, except the LLM reads it: it becomes the tool description.</td></tr>
+  <tr><td><code>{"key": value}</code>, <code>[1, 2, 3]</code></td><td>Dictionary and list literals, written exactly like JSON.</td></tr>
+  <tr><td><code>f"Hello {name}"</code></td><td>String interpolation, like C# <code>$"Hello {name}"</code>.</td></tr>
+  <tr><td><code>True</code> / <code>False</code> / <code>None</code></td><td><code>true</code> / <code>false</code> / <code>null</code>.</td></tr>
+  <tr><td><code>create(model=m, tools=[f], max_turns=5)</code></td><td>Named arguments, like C# named parameters.</td></tr>
+  <tr><td><code>for msg in messages:</code></td><td><code>foreach (var msg in messages)</code></td></tr>
+  <tr><td><code>[t.name for t in tools]</code></td><td>A list comprehension: <code>tools.Select(t =&gt; t.Name).ToList()</code> / <code>tools.stream().map(...)</code>.</td></tr>
+  <tr><td><code>@dataclass</code>, <code>@lru_cache</code></td><td>Decorators, similar to attributes / annotations, but they wrap the function or class.</td></tr>
+  <tr><td><code>from harness.tools import LOAN_TOOLS</code></td><td><code>using</code> / <code>import</code> of one name from the <code>harness/tools.py</code> module.</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="trouble"><span class="num">09</span>Troubleshooting</h2>
+
+<table>
+  <tr><th style="width:38%">Symptom</th><th>Fix</th></tr>
+  <tr><td><code>'python' is not recognized…</code></td><td>Python is not on PATH. Re-run the installer, choose <b>Modify</b>, tick <b>Add Python to environment variables</b>, and open a new terminal. Or use <code>py -3.12</code>.</td></tr>
+  <tr><td>Typing <code>python</code> opens the Microsoft Store</td><td>Turn off the <b>App execution aliases</b> for python.exe (see step 1).</td></tr>
+  <tr><td><code>running scripts is disabled on this system</code></td><td><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>, or use Command Prompt with <code>.venv\Scripts\activate.bat</code>.</td></tr>
+  <tr><td><code>ModuleNotFoundError: No module named 'aisuite'</code></td><td>The virtual environment is not active (no <code>(.venv)</code> in the prompt), or the notebook uses the wrong kernel. Activate, then <code>pip install -r requirements.txt</code>. In VS Code, pick the <b>.venv</b> kernel.</td></tr>
+  <tr><td><code>NameError: name 'is_mcp_config' is not defined</code></td><td>aisuite was installed without the <code>mcp</code> extra. Run <code>pip install -r requirements.txt</code> again (it pins <code>aisuite[openai,mcp]</code>).</td></tr>
+  <tr><td><code>AuthenticationError</code> / <code>401</code> / <code>invalid_api_key</code></td><td>Key copied wrongly or still the placeholder. Check <code>.env</code> has no quotes or spaces, then <b>restart the kernel</b> so it re-reads <code>.env</code>.</td></tr>
+  <tr><td><code>RateLimitError</code> / <code>429</code> / <code>insufficient_quota</code></td><td>The OpenAI account has no credit. Add billing at platform.openai.com.</td></tr>
+  <tr><td id="corp"><b>Corporate network:</b> <code>SSLError</code>, <code>CERTIFICATE_VERIFY_FAILED</code>, timeouts</td><td>
+    Your company inspects HTTPS traffic. pip 24.2 and newer already trusts the Windows / macOS certificate store, so upgrade pip first. If the upgrade itself fails with an SSL error, run it like this (the older pip that ships with Python understands this flag):
+    <pre style="margin:6px 0">python -m pip install --upgrade pip --use-feature=truststore
+pip install -r requirements.txt</pre>
+    If you need a proxy: <code>pip install --proxy http://proxy.company:8080 -r requirements.txt</code> and set <code>HTTPS_PROXY</code> before running notebooks. If the <i>API call</i> fails with the same SSL error, run <code>pip install truststore</code>, add <code>import truststore; truststore.inject_into_ssl()</code> as the first line of the first notebook cell, or ask IT to allow <code>api.openai.com</code>.</td></tr>
+  <tr><td>Kernel takes a minute to start / VS Code says the kernel timed out</td><td>Endpoint security scanning new files. Wait and retry; the repo's VS Code settings already allow 4 minutes. JupyterLab (Option A) is more patient.</td></tr>
+  <tr><td>VS Code: <i>Could not initialize webview… service worker</i></td><td>Close VS Code completely, delete <code>%APPDATA%\Code\Service Worker</code>, reopen. Or use JupyterLab instead.</td></tr>
+  <tr><td>Notebook cell stuck on <code>[*]</code> for minutes</td><td><b>Kernel → Interrupt</b>, check your network, then re-run the cell.</td></tr>
+  <tr><td><code>Port 8501 is already in use</code> (Streamlit)</td><td>Another Streamlit is running. Stop it, or run <code>streamlit run app.py --server.port 8502</code>.</td></tr>
+  <tr><td>Wrong Python version in <code>.venv</code></td><td>Delete the <code>.venv</code> folder and repeat steps 3–4 with the right Python (<code>py -3.12 -m venv .venv</code>).</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="ready"><span class="num">10</span>Ready checklist</h2>
+<div class="grid2">
+  <div class="card">
+    <h4>Before the session</h4>
+    <ul class="check">
+      <li><code>python --version</code> shows 3.11 or newer</li>
+      <li>Project folder downloaded</li>
+      <li><code>.venv</code> created and activates with <code>(.venv)</code> in the prompt</li>
+      <li><code>pip install -r requirements.txt</code> finished without errors</li>
+      <li><code>.env</code> contains your real API key</li>
+      <li><code>python check_setup.py</code> prints <b>All set for the session!</b></li>
+      <li><code>01_sdk_basics.ipynb</code> opens in JupyterLab or VS Code</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>On the day</h4>
+    <ol>
+      <li>Open a terminal in the project folder.</li>
+      <li>Activate: <code>.venv\Scripts\Activate.ps1</code><br><span class="muted">(macOS/Linux: <code>source .venv/bin/activate</code>)</span></li>
+      <li>Start: <code>jupyter lab notebooks</code></li>
+      <li>Open notebook 01 and run the first cell.</li>
+    </ol>
+    <div class="tip" style="margin-top:12px"><b>Stuck?</b> Bring the full output of <code>python check_setup.py</code>; it tells us exactly what is wrong.</div>
+  </div>
+</div>
+
+<p class="muted" style="margin-top:28px;font-size:12.5px">All customer data in this project is synthetic. Tested with Python 3.12, aisuite 0.2.0, JupyterLab 4.6 and Streamlit 1.67.</p>
+
+</div>
+</body>
+</html>
