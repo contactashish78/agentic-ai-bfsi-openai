@@ -1,0 +1,11 @@
+{
+  // Use the project's virtual environment for notebooks, terminals and the Python extension
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.terminal.activateEnvironment": true,
+
+  // Notebooks run from their own folder, so `sys.path.append("..")` and `../.env` resolve
+  "jupyter.notebookFileRoot": "${fileDirname}",
+
+  // Kernel start can be slow when endpoint security scans every imported file (default is 60 s)
+  "jupyter.jupyterLaunchTimeout": 240000
+}

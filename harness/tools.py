@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 import re
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from functools import lru_cache
 
 from .config import DATA_FILE
@@ -21,9 +21,29 @@ from .config import DATA_FILE
 _APP_ID = re.compile(r"^LA-\d{4}$")
 
 
+_DATE_FIELDS = ("submitted_on", "last_updated", "expected_decision_by")
+
+
+def load_loans() -> dict:
+    """Load the synthetic loan data with every date moved relative to today.
+
+    The file is written as of `_dates_as_of`; each date is shifted by
+    (today - _dates_as_of) so the demo never shows stale dates.
+    """
+    data = json.loads(DATA_FILE.read_text(encoding="utf-8"))
+    as_of = data.get("_dates_as_of")
+    if as_of:
+        shift = date.today() - date.fromisoformat(as_of)
+        for app in data["applications"].values():
+            for field in _DATE_FIELDS:
+                if app.get(field):
+                    app[field] = (date.fromisoformat(app[field]) + shift).isoformat()
+    return data
+
+
 @lru_cache(maxsize=1)
 def _db() -> dict:
-    return json.loads(DATA_FILE.read_text(encoding="utf-8"))
+    return load_loans()
 
 
 def _normalise(application_id: str) -> str:
